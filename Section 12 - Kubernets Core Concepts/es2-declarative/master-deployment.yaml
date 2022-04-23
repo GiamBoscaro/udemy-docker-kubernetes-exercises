@@ -1,0 +1,48 @@
+### SERVICE ###
+apiVersion: v1
+kind: Service
+metadata:
+  name: section12-es2-service
+spec:
+  selector: 
+    app: es2
+  ports:
+    - protocol: 'TCP'
+      port: 80
+      targetPort: 8080
+    # - protocol: 'TCP'
+    #   port: 443
+    #   targetPort: 443
+  type: LoadBalancer
+### SERVICE END ###
+---
+apiVersion: apps/v1
+### DEPLOYMENT ###
+kind: Deployment
+metadata:
+  name: section12-es2-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: es2
+      tier: backend
+  template:
+    ### POD ###
+    metadata:
+      labels:
+        app: es2
+        tier: backend
+    spec: 
+      containers:
+        - name: node
+          image: giammarcoboscaro/kubernetes-course:section12-es1
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
+              
+        # - name: ...
+        #   image: ...
+    ### POD END ###
+### DEPLOYMENT END ###
