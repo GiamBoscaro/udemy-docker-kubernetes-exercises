@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: section13-es1-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: section13-es1
+  template:
+    metadata:
+      labels:
+        app: section13-es2
+    spec:
+      volumes:
+        - name: section13-es2-data
+          persistentVolumeClaim:
+            claimName: section13-es2-claim
+      containers:
+        - name: node
+          image: giammarcoboscaro/kubernetes-course:section13-es2-v2
+          volumeMounts:
+            - mountPath: /app/story # container internal path
+              name: section13-es2-data
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "250m"              

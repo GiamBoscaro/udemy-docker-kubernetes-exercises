@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: section13-es3-claim
+spec:
+  volumeName: section13-es3-volume
+  storageClassName: standard # must be always specified even if standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
