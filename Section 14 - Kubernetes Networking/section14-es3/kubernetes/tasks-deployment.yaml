@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasks-deployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: tasks
+  template:
+    metadata:
+      labels:
+        app: tasks
+    spec:
+      volumes:
+        - name: section14-es3-tasks
+          hostPath:
+            path: /tasks
+            type: DirectoryOrCreate
+      containers:
+      - name: tasks-deployment
+        image: giammarcoboscaro/kubernetes-course:section14-es3-tasks
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /app/tasks
+            name: section14-es3-tasks
+        env:
+          - name: AUTH_ADDRESS
+            value: "auth-service.default"
+          - name: TASKS_FOLDER
+            value: "tasks"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "125m"

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth-deployment
+        image: giammarcoboscaro/kubernetes-course:section14-es2-auth
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "125m"

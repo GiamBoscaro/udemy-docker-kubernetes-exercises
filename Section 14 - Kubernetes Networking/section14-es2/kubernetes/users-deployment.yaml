@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - name: users-deployment
+        image: giammarcoboscaro/kubernetes-course:section14-es2-users
+        env:
+          - name: AUTH_ADDRESS
+            value: localhost
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "125m"
+      - name: auth-deployment
+        image: giammarcoboscaro/kubernetes-course:section14-es2-auth
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "125m"
